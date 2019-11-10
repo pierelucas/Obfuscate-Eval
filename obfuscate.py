@@ -12,7 +12,6 @@ class ObfuscateAll():
         self.name = name
         with open(self.name, 'r') as f:
             self.string = f.read()
-            print(self.string)
         self.write()
 
     @staticmethod
@@ -26,14 +25,12 @@ class ObfuscateAll():
 
     def write(self):
         with open(self.name, 'w') as f:
-            f.write("from base64 import b64decode\n\n"
-                    "def rot13(r_string):\n"
-                    "\td = {}\n"
-                    "\tfor c in (65, 97):\n"
-                    "\t\tfor i in range(26):\n"
-                    "\t\t\td[chr(i+c)] = chr((i+13) % 26 + c)\n"
-                    "\treturn ''.join([d.get(c, c) for c in r_string])\n\n"
-                    "s = {string}\n\neval(rot13(b64decode(s).decode('UTF-8')))\n".format({}, string = b64encode(self.rot13(self.string).encode("UTF-8"))))
+            f.write("import codecs;"
+                    "from base64 import b64decode;"
+                    "rot13 = lambda s: codecs.encode(s, 'rot13');"
+                    "s = {string};"
+                    "eval(rot13(\'{obfs_eval}\'))\n".format({}, string = b64encode(self.rot13(self.string).encode("UTF-8")),
+                                                       obfs_eval = self.rot13("eval(rot13(b64decode(s).decode(\\'UTF-8\\')))")))
 
 
 if __name__ == "__main__":
