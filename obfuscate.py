@@ -29,7 +29,7 @@ class ObfuscateAll():
                     "from base64 import b64decode;"
                     "rot13 = lambda s: codecs.encode(s, 'rot13');"
                     "s = {string};"
-                    "eval(rot13(\'{obfs_eval}\'))\n".format({}, string = b64encode(self.rot13(self.string).encode("UTF-8")),
+                    "eval(rot13(\'{obfs_eval}\'))\n".format(string = b64encode(self.rot13(self.string).encode("UTF-8")),
                                                        obfs_eval = self.rot13("eval(rot13(b64decode(s).decode(\\'UTF-8\\')))")))
 
 
