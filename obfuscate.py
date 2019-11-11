@@ -43,4 +43,3 @@ if __name__ == "__main__":
             continue
     OA = ObfuscateAll()
     OA(name)
-
